@@ -22,11 +22,11 @@ def main():
 
         try:
             handle_connection(conn, addr)
-            conn.shutdown()
             print(f"Closing connection from '{addr}'")
         except Exception as err:
             print(f"Closing connection from '{addr}' with error '{err}'")
 
+        conn.shutdown()
         conn.close()
 
 
@@ -50,6 +50,7 @@ def handle_connection(conn, addr):
             case RequestMethod.GET:
                 res = handle_get_request(req)
 
+        print(res.stringify())
         conn.send(res.stringify().encode())
                 
 
