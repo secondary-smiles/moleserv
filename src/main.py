@@ -2,7 +2,9 @@ import socket
 
 from OpenSSL import SSL
 
-from lib.req import Request
+from lib.req import Request, RequestMethod
+from lib.res import Response
+from lib.handle.get import handle_get_request
 
 def main():
     ctx = SSL.Context(SSL.SSLv23_METHOD)
@@ -42,7 +44,14 @@ def handle_connection(conn, addr):
 
         headers = sections[0]
         req = Request(headers)
-        print(req)
+
+        res: Response = Response()
+        match req.kind:
+            case RequestMethod.GET:
+                res = handle_get_request(req)
+
+        conn.send(res.stringify().encode())
+                
 
 
 if __name__ == "__main__":
