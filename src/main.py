@@ -2,6 +2,8 @@ import socket
 
 from OpenSSL import SSL
 
+from lib.req import Request
+
 def main():
     ctx = SSL.Context(SSL.SSLv23_METHOD)
     ctx.use_privatekey_file("key.pem")
@@ -16,9 +18,32 @@ def main():
         conn, addr = server.accept()
         print(f"New connection from '{addr}'")
 
-        conn.send("Hello, world!\n".encode())
-        conn.shutdown()
+        try:
+            handle_connection(conn, addr)
+            conn.shutdown()
+            print(f"Closing connection from '{addr}'")
+        except Exception as err:
+            print(f"Closing connection from '{addr}' with error '{err}'")
+
         conn.close()
+
+
+def handle_connection(conn, addr):
+    while True:
+        read_bytes = ""
+        try:
+            read_bytes = conn.recv(2048).decode()
+        except SSL.ZeroReturnError:
+            break
+
+        sections = read_bytes.split("\r\n\r\n")
+        if len(sections) < 2:
+            raise Exception("No headers, or headers too long.")
+
+        headers = sections[0]
+        req = Request(headers)
+        print(req)
+
 
 if __name__ == "__main__":
     main()
