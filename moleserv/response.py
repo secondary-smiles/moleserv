@@ -6,23 +6,23 @@ class ResponseError(Exception):
 class Response:
     status: int = 10
     message: str = ""
-    res_type: str = ""
+    content_type: str = ""
     len: int
     hash: str
 
     keys: dict[str, str]
-    _data: str
+    content: str
 
-    def __init__(self, status: int=0, message: str="", res_type: str="", keys: dict[str, str]={}, _data: str=""):
+    def __init__(self, status: int=0, message: str="", content_type: str="", keys: dict[str, str]={}, content: str=""):
         if status: self.status = status
         if message: self.message = message
-        if res_type: self.res_type = res_type
+        if content_type: self.content_type = content_type
         
-        if keys and _data:
+        if keys and content:
             raise ResponseError("Keys and data cannot coexist in the same response.")
 
         self.keys = keys
-        self._data = _data
+        self.content = content
     
     def stringify(self) -> str:
         string = ""
@@ -33,15 +33,15 @@ class Response:
         if self.message:
             string += f"message:{self.message}\t\r\n"
 
-        if self.res_type:
-            string += f"type:{self.res_type}\t\r\n"
+        if self.content_type:
+            string += f"type:{self.content_type}\t\r\n"
 
         if self.keys:
             for key in self.keys:
                 content += f"{key}:{self.keys[key]}\t\r\n"
 
-        if self._data:
-            content = self._data
+        if self.content:
+            content = self.content
             
 
         if content:

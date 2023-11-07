@@ -4,8 +4,8 @@ import socket
 from OpenSSL import SSL
 from typing import Callable
 
-from response import Response
-from request import Request, RequestMethod, RequestParseError
+from moleserv.response import Response
+from moleserv.request import Request, RequestMethod, RequestParseError
 
 class PathNotFoundError(Exception):
     pass
@@ -17,9 +17,9 @@ class Server:
     address: str
     port: int
 
-    _get_paths: dict[str, Callable[[Request], Response]]
-    _put_paths: dict[str, Callable[[Request], Response]]
-    _del_paths: dict[str, Callable[[Request], Response]]
+    _get_paths: dict[str, Callable[[Request], Response]] = {}
+    _put_paths: dict[str, Callable[[Request], Response]] = {}
+    _del_paths: dict[str, Callable[[Request], Response]] = {}
 
     def __init__(self, address: str, port: int=2693):
         self.address = address
@@ -60,11 +60,15 @@ class Server:
             except RequestParseError as err:
                 res = Response(err.code, "Malformed request")
                 conn.send(res.stringify().encode())
-                print(f"Closing connection from '{addr}' with error '{err}'")
+                print(f"Closing connection from '{addr}' with error '{err}' and code '{err.code}'")
+            except PathNotFoundError as err:
+                res = Response(32, "Not found")
+                conn.send(res.stringify().encode())
+                print(f"Closing connection from '{addr}' with error '{err}' and code '32'")
             except Exception as err:
                 res = Response(40, "Internal error")
                 conn.send(res.stringify().encode())
-                print(f"Closing connection from '{addr}' with error '{err}'")
+                print(f"Closing connection from '{addr}' with error '{err}' and code '40'")
 
             conn.shutdown()
             conn.sock_shutdown(socket.SHUT_RDWR)
