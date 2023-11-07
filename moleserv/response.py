@@ -13,13 +13,13 @@ class Response:
     keys: dict[str, str]
     content: str
 
-    def __init__(self, status: int=0, message: str="", content_type: str="", keys: dict[str, str]={}, content: str=""):
+    def __init__(self, status: int=0, message: str="", content_type: str="text/molerat", keys: dict[str, str]={}, content: str=""):
         if status: self.status = status
         if message: self.message = message
         if content_type: self.content_type = content_type
         
         if keys and content:
-            raise ResponseError("Keys and data cannot coexist in the same response.")
+            raise ResponseError("Keys and data cannot coexist in the same response")
 
         self.keys = keys
         self.content = content
@@ -33,9 +33,6 @@ class Response:
         if self.message:
             string += f"message:{self.message}\t\r\n"
 
-        if self.content_type:
-            string += f"type:{self.content_type}\t\r\n"
-
         if self.keys:
             for key in self.keys:
                 content += f"{key}:{self.keys[key]}\t\r\n"
@@ -45,6 +42,11 @@ class Response:
             
 
         if content:
+            if self.content_type:
+                string += f"type:{self.content_type}\t\r\n"
+            else:
+                raise ResponseError("Content defined without content_type")
+
             string += f"length:{len(content)}\t\r\n"
             string += f"hash:{hashlib.sha256(content.encode()).hexdigest()}\t\r\n"
             string += "\r\n\r\n"

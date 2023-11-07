@@ -54,3 +54,4 @@ Temporary Items
 *.csr
 env/
 *.pyc
+dist/

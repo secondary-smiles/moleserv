@@ -3,18 +3,8 @@ from urllib.parse import urlparse, ParseResult
 
 class RequestParseError(Exception):
     def __init__(self, message, code: int = 40):            
-        # Call the base class constructor with the parameters it needs
         super().__init__(message)
-            
-        # Now for your custom code...
         self.code = code
-
-class RequestParseGetError(RequestParseError):
-    pass
-class RequestParsePutError(RequestParseError):
-    pass
-class RequestParseDelError(RequestParseError):
-    pass
 
 class RequestMethod(Enum):
     GET=0
