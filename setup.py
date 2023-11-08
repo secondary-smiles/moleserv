@@ -6,6 +6,9 @@ setup(
         description="Molerat protocol server library.",
         url="https://git.trinket.icu/moleserv.git",
 
+        long_description=open("README.md", 'r').read(),
+        long_description_content_type='text/markdown',
+
         author="Shav Kinderlehrer",
         author_email="molerat@git.trinket.icu",
 
@@ -14,6 +17,7 @@ setup(
         packages=find_packages(include=["moleserv"]),
 
         install_requires=["pyOpenSSL"],
+        python_requires=">=3.11",
 
         project_urls={
             "Source": "https://git.trinket.icu/moleserv.git",
