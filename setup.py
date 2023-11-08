@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
         name="moleserv",
-        version="0.1.2",
+        version="0.1.3",
         description="Molerat protocol server library.",
         url="https://git.trinket.icu/moleserv.git",
 

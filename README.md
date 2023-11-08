@@ -1,6 +1,6 @@
 # Moleserv
 
-Moleserv is a server framework for the [*Molerat*](https://molerat.git.trinket.icu) protocol. It features a simple syntax for building complicated servers that conform to the [Molerat](https://molerat.git.trinket.icu) protocol.
+Moleserv is a server framework for the [*Molerat*](https://molerat.trinket.icu) protocol. It features a simple syntax for building complicated servers that conform to the [Molerat](https://molerat.trinket.icu) protocol.
 
 ## Install
 
