@@ -16,7 +16,7 @@ class Request:
     url: ParseResult
 
     length: int = 0
-    hash: str
+    hash: str = ""
 
     keys: dict[str, str] = {}
 
@@ -103,7 +103,4 @@ class Request:
         string += "\r)"
 
         return string
-
-
-
 
