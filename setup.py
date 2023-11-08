@@ -2,9 +2,9 @@ from setuptools import find_packages, setup
 
 setup(
         name="moleserv",
-        version="0.1.3",
+        version="0.1.4",
         description="Molerat protocol server library.",
-        url="https://git.trinket.icu/moleserv.git",
+        url="https://molerat.trinket.icu",
 
         long_description=open("README.md", 'r').read(),
         long_description_content_type='text/markdown',
