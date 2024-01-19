@@ -48,7 +48,7 @@ class Response:
                 raise ResponseError("Content defined without content_type")
 
             string += f"length:{len(content)}\t\r\n"
-            string += f"hash:{hashlib.sha256(content.encode()).hexdigest()}\t\r\n"
+            string += f"hash:{hashlib.sha256(content.encode()).hexdigest()}"
             string += "\r\n\r\n"
             string += content
         else:
